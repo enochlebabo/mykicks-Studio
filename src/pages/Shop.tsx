@@ -200,7 +200,7 @@ const Shop = () => {
       
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="mb-8 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 gradient-hero bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-2">
             Discover Your Perfect Kicks
           </h1>
           <p className="text-muted-foreground">Premium sneakers from Southern Africa</p>

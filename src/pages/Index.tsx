@@ -25,9 +25,7 @@ const Index = () => {
 
         <div className="container mx-auto px-4 z-10 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            <span className="gradient-hero bg-clip-text text-transparent">
-              MY_KICKS_STUDIO
-            </span>
+            MY_KICKS_STUDIO
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate-fade-in">
             Premium Sneakers from Southern Africa. Where Style Meets Culture.
