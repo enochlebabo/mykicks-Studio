@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, User, LogOut } from "lucide-react";
+import { ShoppingCart, User, LogOut, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -58,6 +58,12 @@ export const Navigation = ({ cartItemCount = 0 }: NavigationProps) => {
                     <DropdownMenuItem asChild>
                       <Link to={getDashboardLink()}>
                         Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/bookings">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        My Bookings
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={signOut}>

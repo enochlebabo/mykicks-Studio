@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import Navigation from "@/components/Navigation";
+import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -64,20 +64,30 @@ const Bookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: bookingsData, error } = await supabase
         .from("bookings")
-        .select(`
-          *,
-          products (
-            name,
-            image_url,
-            brand
-          )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setBookings(data || []);
+
+      // Fetch product details separately
+      const bookingsWithProducts = await Promise.all(
+        (bookingsData || []).map(async (booking) => {
+          const { data: product } = await supabase
+            .from("products")
+            .select("name, image_url, brand")
+            .eq("id", booking.product_id)
+            .single();
+
+          return {
+            ...booking,
+            products: product,
+          };
+        })
+      );
+
+      setBookings(bookingsWithProducts);
     } catch (error: any) {
       toast({
         title: "Error",

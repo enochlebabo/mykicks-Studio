@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Heart, Star, Eye } from "lucide-react";
+import { ShoppingCart, Heart, Star, Eye, Calendar } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { BookingDialog } from "./BookingDialog";
 
 interface ProductCardProps {
   product: {
@@ -27,6 +28,7 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product, onAddToCart, isInWishlist, onWishlistToggle }: ProductCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState<any[]>([]);
@@ -166,14 +168,23 @@ export const ProductCard = ({ product, onAddToCart, isInWishlist, onWishlistTogg
           </div>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="flex gap-2">
           <Button
-            className="w-full gradient-accent hover:opacity-90 transition-opacity"
+            className="flex-1"
             onClick={() => onAddToCart(product.id)}
             disabled={product.stock_quantity === 0}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            Add to Cart
+            Cart
+          </Button>
+          <Button
+            variant="secondary"
+            className="flex-1"
+            onClick={() => setShowBooking(true)}
+            disabled={product.stock_quantity === 0}
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            Book
           </Button>
         </CardFooter>
       </Card>
@@ -204,17 +215,31 @@ export const ProductCard = ({ product, onAddToCart, isInWishlist, onWishlistTogg
 
               <p className="text-muted-foreground">{product.description}</p>
 
-              <Button
-                className="w-full gradient-accent"
-                onClick={() => {
-                  onAddToCart(product.id);
-                  setShowDetails(false);
-                }}
-                disabled={product.stock_quantity === 0}
-              >
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Add to Cart
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    onAddToCart(product.id);
+                    setShowDetails(false);
+                  }}
+                  disabled={product.stock_quantity === 0}
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Add to Cart
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="flex-1"
+                  onClick={() => {
+                    setShowDetails(false);
+                    setShowBooking(true);
+                  }}
+                  disabled={product.stock_quantity === 0}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Book Now
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -274,6 +299,12 @@ export const ProductCard = ({ product, onAddToCart, isInWishlist, onWishlistTogg
           </div>
         </DialogContent>
       </Dialog>
+
+      <BookingDialog
+        open={showBooking}
+        onOpenChange={setShowBooking}
+        product={product}
+      />
     </>
   );
 };
