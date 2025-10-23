@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          booking_date: string
+          created_at: string
+          id: string
+          notes: string | null
+          pickup_date: string
+          product_id: string
+          quantity: number
+          status: string
+          total_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          booking_date?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          pickup_date: string
+          product_id: string
+          quantity?: number
+          status?: string
+          total_amount: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          booking_date?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          pickup_date?: string
+          product_id?: string
+          quantity?: number
+          status?: string
+          total_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string | null
